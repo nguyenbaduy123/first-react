@@ -1,0 +1,149 @@
+@import "normalize.css";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  background-color: #282d35;
+}
+
+.container {
+  position: absolute;
+  width: 550px;
+  height: 868px;
+  background: #23252c;
+  text-align: center;
+  align-content: center;
+}
+
+.main {
+  position: absolute;
+  background-color: #1a1b21;
+  width: 317px;
+  left: 116px;
+  top: 44px;
+}
+
+.info {
+  left: 0;
+  right: 0;
+}
+.info__image {
+  width: 317px;
+  height: 317px;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.info__name {
+  /* width: 178.06px;
+  height: 25.81px;
+  text-align: center; */
+  margin: 0;
+  font-weight: 700;
+  font-size: 25px;
+  color: #fff;
+  line-height: 30px;
+  margin-top: 10px;
+}
+
+.info__job {
+  font-weight: 400;
+  color: #f3bf99;
+  font-size: 12.8px;
+  margin: 0;
+}
+
+.info__website {
+  font-weight: 400;
+  font-size: 10.24px;
+  line-height: 150%;
+  margin: 0;
+  color: #f5f5f5;
+  margin-top: 5px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  padding: 9px 13px 9px 11px;
+  gap: 8px;
+  position: relative;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn {
+  position: unset;
+  width: 115px;
+  height: 34px;
+
+  /* white */
+
+  background: #ffffff;
+  /* gray/300 */
+
+  border: 1px solid #d1d5db;
+  /* shadow/sm */
+
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+}
+
+.button__email {
+  color: #000;
+}
+
+.button__linkedIn {
+  position: relative;
+  background: #5093e2;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  border: none;
+  color: #fff;
+}
+
+.about {
+  text-align: left;
+  padding-left: 36px;
+  padding-right: 34px;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.--about__title {
+  margin: 0;
+}
+
+.--about__text {
+  color: #dcdcdc;
+  margin: 0;
+  margin-bottom: 24px;
+  font-size: 10.5px;
+}
+
+footer {
+  margin-top: 50px;
+  background-color: #161619;
+  height: 64px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 73px;
+}
+
+.svg-inline--fa {
+  height: 25px;
+}
