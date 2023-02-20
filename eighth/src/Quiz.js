@@ -1,14 +1,4 @@
 function Question(props) {
-  // console.log(tempAnswers[0]);
-
-  // if (props.successs) {
-  // console.log(props.success);
-  // }
-
-  const styles = {
-    backgroundColor: "#D6DBF5",
-  };
-
   const answers = props.answers.map((answer) => (
     <button
       key={answer.id}
@@ -24,9 +14,14 @@ function Question(props) {
           ? "wrong-answer"
           : ""
       } ${
-        props.success === false && answer.value === props.correct_answer
+        props.success !== "no-submitted" &&
+        answer.value === props.correct_answer
           ? "need-choose"
           : ""
+      } ${
+        props.success === false &&
+        answer.value !== props.correct_answer &&
+        "blur"
       }`}
       onClick={() => props.pickAnswer(props.id, answer.id)}
     ></button>
@@ -38,8 +33,6 @@ function Question(props) {
         className="quiz--header"
         dangerouslySetInnerHTML={{ __html: props.question }}
       />
-      {/* {dangerouslySetInnerHTML(props.question)} */}
-      {/* </h3> */}
       <div className="quiz--answer">{answers}</div>
       <hr />
     </div>

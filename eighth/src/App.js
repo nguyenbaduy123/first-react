@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 
 import Quiz from "./Quiz";
@@ -6,8 +6,7 @@ import Quiz from "./Quiz";
 function App() {
   const [quizzes, setQuizzes] = useState([]);
   const [submitted, setSubmitted] = useState(false);
-
-  // useEffect(() => setQuizzes(allNewQuiz(data.results)), []);
+  const [loading, setLoading] = useState(false);
 
   function allNewQuiz(data) {
     let newQuizzes = data;
@@ -17,21 +16,23 @@ function App() {
     setSubmitted(false);
   }
 
-  console.log(123);
+  useEffect(() => {
+    async function fetchData() {
+      if (loading) {
+        const res = await fetch("https://opentdb.com/api.php?amount=10");
+        const data = await res.json();
+        allNewQuiz(data.results);
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [loading]);
 
-  function start() {
-    // setSubmitted(false);
-    fetch("https://opentdb.com/api.php?amount=10")
-      .then((res) => res.json())
-      .then((data) => allNewQuiz(data.results));
-  }
-
-  // useEffect(() => {
-  //   let newQuizzes = data.results;
-  //   newQuizzes = newQuizzes.map((quiz) => generateNewQuiz(quiz));
-  //   newQuizzes = newQuizzes.map((quiz) => randomAnswer(quiz));
-  //   setQuizzes(newQuizzes);
-  // }, []);
+  // function start() {
+  //   fetch("https://opentdb.com/api.php?amount=10")
+  //     .then((res) => res.json())
+  //     .then((data) => allNewQuiz(data.results));
+  // }
 
   function generateNewQuiz(quiz) {
     return {
@@ -55,13 +56,18 @@ function App() {
   }
 
   function randomAnswer(quiz) {
-    const tempAnswers = [];
-    while (quiz.answers.length != 0) {
-      const randomIndex = Math.floor(Math.random() * quiz.answers.length);
-      tempAnswers.push(quiz.answers[randomIndex]);
-      quiz.answers.splice(randomIndex, 1);
-    }
-    return { ...quiz, answers: tempAnswers };
+    // const tempAnswers = [];
+    // while (quiz.answers.length !== 0) {
+    //   const randomIndex = Math.floor(Math.random() * quiz.answers.length);
+    //   tempAnswers.push(quiz.answers[randomIndex]);
+    //   quiz.answers.splice(randomIndex, 1);
+    // }
+    // return { ...quiz, answers: tempAnswers };
+
+    const randomIndex = Math.floor(Math.random() * quiz.answers.length);
+    quiz.answers.splice(randomIndex, 0, quiz.answers[quiz.answers.length - 1]);
+    quiz.answers.splice(-1);
+    return quiz;
   }
 
   function pickAnswer(id, answerId) {
@@ -100,7 +106,7 @@ function App() {
 
   function submit() {
     setSubmitted(true);
-    submitted && check();
+    check();
   }
 
   function getResult() {
@@ -119,35 +125,45 @@ function App() {
       correct_answer={quiz.correct_answer}
       answers={quiz.answers}
       pickAnswer={pickAnswer}
-      success={submitted === true ? quiz.success : "not-submitted"}
+      success={submitted === true ? quiz.success : "no-submitted"}
     />
   ));
 
+  if (loading) {
+    return (
+      <main>
+        <h3>Loading...</h3>
+      </main>
+    );
+  }
+
   return (
     <main className="container">
-      {quizzes.length ? (
-        <>
-          {quizElements}
-          {submitted ? (
-            <div className="submitted">
-              <h4>
-                You have {getResult()}/{quizzes.length} correct answers!
-              </h4>
-              <button className="try-again" onClick={start}>
-                Try Again
+      <div className="main--quiz">
+        {quizzes.length ? (
+          <>
+            {quizElements}
+            {submitted ? (
+              <div className="submitted">
+                <h4>
+                  You have {getResult()}/{quizzes.length} correct answers!
+                </h4>
+                <button className="try-again" onClick={() => setLoading(true)}>
+                  Try Again
+                </button>
+              </div>
+            ) : (
+              <button className="submit" onClick={submit}>
+                Submit
               </button>
-            </div>
-          ) : (
-            <button className="submit" onClick={submit}>
-              Submit
-            </button>
-          )}
-        </>
-      ) : (
-        <button className="start" onClick={start}>
-          Start quiz
-        </button>
-      )}
+            )}
+          </>
+        ) : (
+          <button className="start" onClick={() => setLoading(true)}>
+            Start quiz
+          </button>
+        )}
+      </div>
     </main>
   );
 }
