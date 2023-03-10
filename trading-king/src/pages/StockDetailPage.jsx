@@ -14,11 +14,13 @@ const formatData = (data) => {
 };
 
 export const StockDetailPage = () => {
+  const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState();
   const { symbol } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const date = new Date();
       const currentTime = Math.floor(date.getTime() / 1000);
       let oneDay;
@@ -67,9 +69,18 @@ export const StockDetailPage = () => {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     fetchData();
   }, [symbol]);
+
+  if (loading) {
+    return (
+      <div className="text-center mt-5">
+        <h2>Loading...</h2>
+      </div>
+    );
+  }
 
   return (
     <div>

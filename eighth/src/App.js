@@ -26,7 +26,10 @@ function App() {
       }
     }
     fetchData();
+    // return remove;
   }, [loading]);
+
+  console.log(quizzes);
 
   // function start() {
   //   fetch("https://opentdb.com/api.php?amount=10")
